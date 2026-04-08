@@ -10,15 +10,19 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    background: #0d0d12;
+    background: linear-gradient(160deg, #080810 0%, #0d1020 40%, #0a0a18 70%, #0d0d14 100%);
     color: #c8c8d8;
     line-height: 1.6;
+    min-height: 100vh;
   }
 
   header {
     padding: 48px 40px 32px;
-    border-bottom: 1px solid #1c1c2a;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     text-align: center;
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
   header h1 {
     font-size: 2rem;
@@ -28,11 +32,11 @@
     margin-bottom: 6px;
   }
   header h1 span { color: #f0c060; font-weight: 600; }
-  header p { color: #666; font-size: 0.88rem; }
+  header p { color: rgba(255,255,255,0.4); font-size: 0.88rem; }
 
   .section {
     padding: 48px 40px;
-    border-bottom: 1px solid #1a1a26;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -41,18 +45,21 @@
   .section-header h2 {
     font-size: 1.25rem;
     font-weight: 400;
-    color: #a8b8d0;
+    color: #b8c8e0;
     letter-spacing: 0.02em;
     margin-bottom: 6px;
   }
-  .section-header p { font-size: 0.83rem; color: #555; max-width: 680px; }
+  .section-header p { font-size: 0.83rem; color: rgba(255,255,255,0.35); max-width: 680px; }
 
   .chart-box {
-    background: #111118;
-    border: 1px solid #1e1e2e;
-    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
     padding: 24px;
     position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
   }
   .chart-box canvas { display: block; }
 
@@ -71,11 +78,13 @@
     align-items: center;
     gap: 6px;
     font-size: 0.8rem;
-    color: #888;
+    color: rgba(255,255,255,0.5);
     cursor: pointer;
-    transition: color 0.2s;
+    transition: all 0.2s;
+    padding: 3px 8px;
+    border-radius: 6px;
   }
-  .legend-item:hover { color: #ccc; }
+  .legend-item:hover { color: #ccc; background: rgba(255,255,255,0.06); }
   .legend-dot {
     width: 10px; height: 10px;
     border-radius: 50%;
@@ -91,19 +100,19 @@
   .toggle-btn {
     padding: 4px 12px;
     border-radius: 20px;
-    border: 1px solid #2a2a3a;
-    background: transparent;
-    color: #666;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    color: rgba(255,255,255,0.4);
     font-size: 0.78rem;
     cursor: pointer;
     transition: all 0.2s;
   }
   .toggle-btn.active {
-    background: #1e1e30;
+    background: rgba(255,255,255,0.10);
     color: #ccc;
-    border-color: #3a3a50;
+    border-color: rgba(255,255,255,0.15);
   }
-  .toggle-btn:hover { border-color: #4a4a60; }
+  .toggle-btn:hover { border-color: rgba(255,255,255,0.15); }
 
   .compass-labels {
     position: absolute;
@@ -117,7 +126,7 @@
   .note {
     margin-top: 12px;
     font-size: 0.75rem;
-    color: #444;
+    color: rgba(255,255,255,0.3);
     font-style: italic;
   }
 
@@ -130,19 +139,21 @@
   .tab {
     padding: 5px 14px;
     border-radius: 6px;
-    border: 1px solid #222;
-    background: transparent;
-    color: #555;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: rgba(255,255,255,0.4);
     font-size: 0.78rem;
     cursor: pointer;
     transition: all 0.2s;
   }
   .tab.active {
-    background: #1a1a28;
-    color: #aaa;
-    border-color: #333;
+    background: rgba(255,255,255,0.10);
+    color: #ccc;
+    border-color: rgba(255,255,255,0.15);
   }
-  .tab:hover { border-color: #444; }
+  .tab:hover { border-color: rgba(255,255,255,0.15); }
 
   @media (max-width: 768px) {
     .section { padding: 32px 20px; }
@@ -354,22 +365,24 @@ const CHART_DEFAULTS = {
   plugins: {
     legend: { display: false },
     tooltip: {
-      backgroundColor: '#1a1a28',
-      borderColor: '#2a2a3a',
+      backgroundColor: 'rgba(15,15,25,0.90)',
+      borderColor: 'rgba(255,255,255,0.10)',
       borderWidth: 1,
-      titleColor: '#aaa',
-      bodyColor: '#888',
-      padding: 10,
+      titleColor: '#bbb',
+      bodyColor: '#999',
+      padding: 12,
+      cornerRadius: 8,
+      backdropFilter: 'blur(12px)',
     }
   },
   scales: {
     x: {
-      grid: { color: '#1a1a26', drawBorder: false },
-      ticks: { color: '#555', font: { size: 11 } },
+      grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+      ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 11 } },
     },
     y: {
-      grid: { color: '#1a1a26', drawBorder: false },
-      ticks: { color: '#555', font: { size: 11 } },
+      grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+      ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 11 } },
     }
   }
 };
@@ -530,7 +543,7 @@ setChartDefaults();
       if (!xAxis || !yAxis) return;
 
       ctx.save();
-      ctx.strokeStyle = '#1e1e2e';
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
       ctx.lineWidth = 1;
       ctx.setLineDash([]);
 
@@ -599,17 +612,51 @@ setChartDefaults();
         ctx.restore();
       });
 
-      POLITICAL.forEach(person => {
-        const x2 = xAxis.getPixelForValue(person.late.x);
-        const y2 = yAxis.getPixelForValue(person.late.y);
+      // Name labels with background pills + collision avoidance
+      ctx.font = 'bold 11px system-ui';
+      const labelData = POLITICAL.map(person => {
+        const x = xAxis.getPixelForValue(person.late.x);
+        const y = yAxis.getPixelForValue(person.late.y) - 18;
+        const w = ctx.measureText(person.name).width;
+        return { name: person.name, color: person.color, x, y, w };
+      });
 
+      // Push overlapping labels apart
+      for (let pass = 0; pass < 5; pass++) {
+        for (let i = 0; i < labelData.length; i++) {
+          for (let j = i + 1; j < labelData.length; j++) {
+            const a = labelData[i], b = labelData[j];
+            const overlapX = (a.w/2 + b.w/2 + 12) - Math.abs(a.x - b.x);
+            const overlapY = 18 - Math.abs(a.y - b.y);
+            if (overlapX > 0 && overlapY > 0) {
+              const nudge = overlapY / 2 + 2;
+              if (a.y < b.y) { a.y -= nudge; b.y += nudge; }
+              else { a.y += nudge; b.y -= nudge; }
+            }
+          }
+        }
+      }
+
+      labelData.forEach(label => {
         ctx.save();
-        ctx.fillStyle = person.color;
         ctx.font = 'bold 11px system-ui';
+        const px = 5, py = 3;
+        const rw = label.w + px * 2, rh = 14 + py * 2;
+        const rx = label.x - rw / 2, ry = label.y - 10 - py;
+
+        // Glass pill background
+        ctx.fillStyle = 'rgba(10,10,18,0.80)';
+        ctx.beginPath();
+        ctx.roundRect(rx, ry, rw, rh, 5);
+        ctx.fill();
+        ctx.strokeStyle = label.color + '50';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Label text
+        ctx.fillStyle = label.color;
         ctx.textAlign = 'center';
-        const lx = x2;
-        const ly = y2 - 14;
-        ctx.fillText(person.name, lx, ly);
+        ctx.fillText(label.name, label.x, label.y);
         ctx.restore();
       });
     }
@@ -665,10 +712,8 @@ setChartDefaults();
   const keys = Object.keys(ATTACHMENT);
 
   const adjustedEvents = [
-    { year: 2,   label: 'Mr. Blue emigrates', color: '#60a0f0' },
-    { year: 2.5, label: 'Mr. Teal emigrates', color: '#60c0c0' },
-    { year: 3,   label: 'Mr. Gold emigrates',  color: '#d060a0' },
-    { year: 8,   label: 'Crisis',              color: '#f05060' },
+    { year: 2.5, label: '3 members\nemigrate',  color: '#80a0c0' },
+    { year: 8,   label: 'Crisis',               color: '#f05060' },
   ];
 
   const datasets = keys.map(k => ({
@@ -844,8 +889,8 @@ const RADAR_LABELS = ['Tech / AI', 'Politics', 'Sports', 'Philosophy', 'Social /
     scales: {
       r: {
         min: 0, max: 10,
-        grid: { color: '#1e1e2e' },
-        angleLines: { color: '#1e1e2e' },
+        grid: { color: 'rgba(255,255,255,0.06)' },
+        angleLines: { color: 'rgba(255,255,255,0.06)' },
         pointLabels: { color: '#555', font: { size: 11 } },
         ticks: { color: '#333', backdropColor: 'transparent', stepSize: 2 }
       }
