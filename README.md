@@ -1,6 +1,8 @@
-# LLM Personal Wiki — Starter Kit
+# LLM Personal Wiki - Starter Kit
 
-Build a personal knowledge base where an LLM reads your data, writes articles, and maintains a living wiki about your life.
+Build a knowledge base where an LLM reads your data, writes articles, and maintains a living wiki that compounds over time.
+
+Not a chat dump. Not a one-shot summary. A persistent, structured knowledge base with thematic articles, wikilinks, backlinks, and typed indices. When you add a new data source next month, the LLM rewrites existing articles to incorporate it. The wiki gets richer with every source you add.
 
 Inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and [Farzaa's personal wiki skill](https://gist.github.com/farzaa/c35ac0cfbeb957788650e36aabea836d).
 
@@ -9,7 +11,7 @@ Inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpath
 You drop in raw data exports (WhatsApp chats, IMDB ratings, Goodreads library, Spotify history, journal entries) and the LLM:
 
 - **Ingests** raw files into normalized markdown entries
-- **Absorbs** entries into thematic wiki articles — not summaries, but synthesized understanding
+- **Absorbs** entries into thematic wiki articles, not summaries but synthesized understanding
 - **Cross-references** everything with wikilinks, backlinks, and typed indices
 - **Answers questions** by navigating the wiki, and files worthy answers back as new articles
 - **Maintains** consistency, quality, and connections as the wiki grows
@@ -30,14 +32,14 @@ For additional security:
 
 ### Prerequisites
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed and configured
+- Any LLM coding tool that reads project files: [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.sh), [Codex](https://openai.com/index/codex/), [Windsurf](https://codeium.com/windsurf), or similar
 
 ### Setup
 
 1. Clone this repo (or copy the files into a new project):
 
 ```bash
-git clone <this-repo-url> my-wiki
+git clone https://github.com/dkreinov/self-wiki.git my-wiki
 cd my-wiki
 ```
 
@@ -96,16 +98,27 @@ The `/wiki` skill gives you these commands:
 
 The `demo/evolution-graphs.html` shows what's possible: a 6-chart interactive dashboard visualizing 10 years of group dynamics from ~500K messages. Open it in a browser to see activity timelines, political compass drift, personality archetypes, and more.
 
-## What You'll Get
+## Use Cases
 
-After ingesting a few data sources, your wiki might contain:
+The schema is general-purpose. Some directions you could take it:
 
-- **People profiles** — unified from all sources, with context and connections
-- **Conversation themes** — not per-chat dumps, but thematic synthesis across conversations
-- **Taste analysis** — your film, book, and music preferences with statistical breakdowns
-- **Life patterns** — recurring behaviors, habits, and tendencies extracted from data
-- **Life eras** — periods and transitions identified from the data
-- **Personalized recommendations** — books and films matched to people in your life
+**Personal life:**
+- WhatsApp/Telegram exports, IMDB ratings, Goodreads, Spotify listening history
+- People profiles, conversation themes, taste analysis, life patterns, personalized recommendations
+
+**Work:**
+- Slack exports, meeting notes, architecture docs, internal wikis
+- Project decision history, institutional knowledge, team dynamics
+
+**Research:**
+- Papers, annotations, LLM conversation history
+- Connected literature reviews, concept maps, reading logs
+
+**Creative:**
+- Design files, mood boards, journal entries
+- Pattern recognition across projects, style evolution
+
+Anything an LLM can read, it can absorb into the wiki.
 
 ## Adapting the Schema
 
@@ -118,12 +131,15 @@ The `CLAUDE.md` schema is a starting point. As you use the wiki, you'll want to:
 
 The schema evolves with your wiki. Edit `CLAUDE.md` as you go.
 
+## Platform
+
+The schema is a markdown file. The skill is a prompt. It works in any agentic coding environment that reads project files. Built with Claude Code, but runs in Cursor, Codex, Windsurf, or anything similar. The LLM is the engine, not the platform.
+
 ## Credits
 
-- **Andrej Karpathy** — [LLM Wiki concept](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
-- **Farzaa** — [Personal wiki Claude Code skill](https://gist.github.com/farzaa/c35ac0cfbeb957788650e36aabea836d)
-- Built with [Claude Code](https://docs.anthropic.com/en/docs/claude-code) by Anthropic
+- **Andrej Karpathy** - [LLM Wiki concept](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+- **Farzaa** - [Personal wiki Claude Code skill](https://gist.github.com/farzaa/c35ac0cfbeb957788650e36aabea836d)
 
 ## License
 
-MIT — use it, adapt it, build your own wiki.
+MIT. Use it, adapt it, build your own wiki.
