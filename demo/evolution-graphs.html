@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Reservoir — Group Evolution 2015–2025</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #0d0d12;
+    color: #c8c8d8;
+    line-height: 1.6;
+  }
+
+  header {
+    padding: 48px 40px 32px;
+    border-bottom: 1px solid #1c1c2a;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: #e8e0c8;
+    margin-bottom: 6px;
+  }
+  header h1 span { color: #f0c060; font-weight: 600; }
+  header p { color: #666; font-size: 0.88rem; }
+
+  .section {
+    padding: 48px 40px;
+    border-bottom: 1px solid #1a1a26;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header { margin-bottom: 28px; }
+  .section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #a8b8d0;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+  }
+  .section-header p { font-size: 0.83rem; color: #555; max-width: 680px; }
+
+  .chart-box {
+    background: #111118;
+    border: 1px solid #1e1e2e;
+    border-radius: 10px;
+    padding: 24px;
+    position: relative;
+  }
+  .chart-box canvas { display: block; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 16px;
+    padding: 0 4px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .legend-item:hover { color: #ccc; }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .toggle-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .toggle-btn {
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid #2a2a3a;
+    background: transparent;
+    color: #666;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toggle-btn.active {
+    background: #1e1e30;
+    color: #ccc;
+    border-color: #3a3a50;
+  }
+  .toggle-btn:hover { border-color: #4a4a60; }
+
+  .compass-labels {
+    position: absolute;
+    font-size: 0.7rem;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+
+  .note {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: #444;
+    font-style: italic;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: 1px solid #222;
+    background: transparent;
+    color: #555;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: #1a1a28;
+    color: #aaa;
+    border-color: #333;
+  }
+  .tab:hover { border-color: #444; }
+
+  @media (max-width: 768px) {
+    .section { padding: 32px 20px; }
+    .grid2, .grid4 { grid-template-columns: 1fr; }
+    header { padding: 32px 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The Reservoir <span>—</span> Group Evolution 2015–2025</h1>
+  <p>Ten years of a WhatsApp group. How did each person change? All data sourced from ~500,000 messages analyzed by an LLM. Estimated values noted.</p>
+</header>
+
+<!-- ── CHART 1: Activity Over Time ── -->
+<div class="section">
+  <div class="section-header">
+    <h2>1 — Who Was Speaking, and When</h2>
+    <p>Normalized activity score (1–10) per person per year. Key group events annotated. Notice Mr. Silver's dramatic 2021 peak and near-silence after; Mr. Pink's war-era explosion; Mr. Blonde's rage-quit cycles.</p>
+  </div>
+  <div class="chart-box" style="height: 460px;">
+    <canvas id="activityChart"></canvas>
+  </div>
+  <div class="legend" id="activityLegend"></div>
+  <p class="note">* Activity normalized: 10 = approx. 4500+ messages/year; 1 = near-absent. Others estimated from narrative.</p>
+</div>
+
+<!-- ── CHART 2: Political Compass Drift ── -->
+<div class="section">
+  <div class="section-header">
+    <h2>2 — Political Compass: Early (2015–18) → Late (2023–25)</h2>
+    <p>Where each person stood politically at group founding, and where they stand now. X-axis: economic left–right. Y-axis: social liberal–conservative. Arrows show direction of change. The dot is the current position.</p>
+  </div>
+  <div class="chart-box" style="height: 540px; position: relative;">
+    <canvas id="politicalChart"></canvas>
+  </div>
+  <p class="note">* Mr. Blonde's arrow is the largest — from self-described left-wing voter to right-leaning nationalist. Mr. Silver drifted right through anti-establishment positions. All others largely stable.</p>
+</div>
+
+<!-- ── CHART 3: Hometown Attachment Over Time ── -->
+<div class="section">
+  <div class="section-header">
+    <h2>3 — Hometown Attachment Score Over Time</h2>
+    <p>Commitment to staying in the home country (0 = already abroad and settled there, 10 = deeply rooted). Emigration events are marked. The 2023 crisis deepened attachment for some (Mr. Brown, Mr. Blonde, Mr. Pink) and loosened it for others (Mr. Green, Mr. White).</p>
+  </div>
+  <div class="chart-box" style="height: 440px;">
+    <canvas id="attachmentChart"></canvas>
+  </div>
+  <div class="legend" id="attachmentLegend"></div>
+  <p class="note">* Emigration events: Mr. Blue ~2017, Mr. Teal ~2017, Mr. Gold ~2018. Mr. Blonde turned down an overseas offer ~2018. Mr. White's stated reason for staying: aging parents.</p>
+</div>
+
+<!-- ── CHART 4: Topic Evolution ── -->
+<div class="section">
+  <div class="section-header">
+    <h2>4 — What the Group Was Talking About, by Era</h2>
+    <p>Estimated share of group discussion across 8 topic categories, split by four eras. The dominance of crisis/conflict content post-2023 is striking — it crowded out nearly everything else.</p>
+  </div>
+  <div class="chart-box" style="height: 380px;">
+    <canvas id="topicChart"></canvas>
+  </div>
+</div>
+
+<!-- ── CHART 5: Interest Radar Changes ── -->
+<div class="section">
+  <div class="section-header">
+    <h2>5 — Interest Profile: Early vs. Late</h2>
+    <p>How each person's engagement across 6 dimensions shifted between the founding era and the crisis era. Select a person to view their radar. Each dimension scored 0–10 based on message content analysis.</p>
+  </div>
+  <div class="tab-bar" id="radarTabs"></div>
+  <div class="chart-box" style="height: 420px; max-width: 500px; margin: 0 auto;">
+    <canvas id="radarChart"></canvas>
+  </div>
+</div>
+
+<!-- ── CHART 6: Personality Archetype Grid ── -->
+<div class="section">
+  <div class="section-header">
+    <h2>6 — Personality Archetypes: The Founding Eight</h2>
+    <p>Six dimensions of conversational personality for the founding members (2015 cohort). Each chart shows a single person's profile: how analytical, provocative, humorous, politically engaged, emotionally volatile, and technically expert they are in the group.</p>
+  </div>
+  <div class="grid4" id="archetypeGrid"></div>
+  <p class="note">* Dimensions: Analytical (data-driven reasoning), Provocateur (how much they stir debate), Humor (comedic contribution), Political (political engagement intensity), Emotional (range and expressiveness), Technical (domain expertise shared).</p>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA — Demo version with anonymized names
+// Names from Quentin Tarantino's "Reservoir Dogs"
+// ─────────────────────────────────────────────
+
+const YEARS = ['2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+
+const PEOPLE = {
+  white:   { name: 'Mr. White',   color: '#4ec9b0' },
+  orange:  { name: 'Mr. Orange',  color: '#f0c060' },
+  blonde:  { name: 'Mr. Blonde',  color: '#f05060' },
+  blue:    { name: 'Mr. Blue',    color: '#60a0f0' },
+  brown:   { name: 'Mr. Brown',   color: '#a060f0' },
+  pink:    { name: 'Mr. Pink',    color: '#f07030' },
+  green:   { name: 'Mr. Green',   color: '#60d060' },
+  grey:    { name: 'Mr. Grey',    color: '#c0b060' },
+  teal:    { name: 'Mr. Teal',    color: '#60c0c0' },
+  gold:    { name: 'Mr. Gold',    color: '#d060a0' },
+  silver:  { name: 'Mr. Silver',  color: '#909090' },
+  crimson: { name: 'Mr. Crimson', color: '#c09060' },
+};
+
+// Activity scores: 1–10, normalized (±1 shifted from source)
+const ACTIVITY = {
+  white:   [6, 8, 6, 8, 7, 9, 7, 8, 8, 7, 7],
+  orange:  [7, 7, 8, 8,10, 8,10, 9, 8,10, 8],
+  blonde:  [4, 6, 7, 6, 4, 3, 3, 5, 9, 8, 4],
+  blue:    [7, 6, 5, 7, 5, 6, 4, 5, 4, 5, 2],
+  brown:   [4, 7, 6, 8, 6, 8, 6, 7, 7, 8, 6],
+  pink:    [2, 4, 3, 2, 4, 3, 1, 3, 6,10, 5],
+  green:   [5, 4, 7, 5, 7, 5, 6, 6, 6, 5, 5],
+  grey:    [3, 6, 4, 6, 4, 6, 6, 3, 7, 4, 3],
+  teal:    [4, 3, 5, 3, 5, 5, 5, 2, 4, 5, 2],
+  gold:    [0, 0, 0, 4, 6, 4, 6, 3, 6, 3, 4],
+  silver:  [0, 0, 0, 5, 6, 8,10, 4, 3, 2, 1],
+  crimson: [3, 4, 6, 4, 6, 4, 6, 5, 4, 5, 2],
+};
+
+// Political compass: { x: economic (-5=left,+5=right), y: social (-5=liberal,+5=conservative) }
+const POLITICAL = [
+  { key:'white',   name:'Mr. White',   color:'#4ec9b0', early:{x:-3,y:-2}, late:{x:-3,y:-2} },
+  { key:'orange',  name:'Mr. Orange',  color:'#f0c060', early:{x: 0,y:-2}, late:{x: 0,y:-1} },
+  { key:'blonde',  name:'Mr. Blonde',  color:'#f05060', early:{x:-3,y:-1}, late:{x: 3,y: 2} },
+  { key:'blue',    name:'Mr. Blue',    color:'#60a0f0', early:{x:-4,y:-3}, late:{x:-4,y:-3} },
+  { key:'brown',   name:'Mr. Brown',   color:'#a060f0', early:{x: 0,y: 0}, late:{x: 0,y: 1} },
+  { key:'pink',    name:'Mr. Pink',    color:'#f07030', early:{x: 3,y: 1}, late:{x: 3,y: 2} },
+  { key:'green',   name:'Mr. Green',   color:'#60d060', early:{x: 0,y:-1}, late:{x: 1,y: 0} },
+  { key:'grey',    name:'Mr. Grey',    color:'#c0b060', early:{x:-1,y: 0}, late:{x:-1,y: 0} },
+  { key:'teal',    name:'Mr. Teal',    color:'#60c0c0', early:{x: 2,y:-2}, late:{x: 2,y:-1} },
+  { key:'gold',    name:'Mr. Gold',    color:'#d060a0', early:{x:-2,y:-2}, late:{x:-2,y:-2} },
+  { key:'silver',  name:'Mr. Silver',  color:'#909090', early:{x: 1,y:-1}, late:{x: 3,y: 1} },
+  { key:'crimson', name:'Mr. Crimson', color:'#c09060', early:{x: 0,y:-1}, late:{x: 0,y:-1} },
+];
+
+// Hometown Attachment: 0 = abroad/gone, 10 = deeply rooted
+const ATTACHMENT = {
+  white:   [8, 8, 6, 7, 6, 5, 7, 5, 8, 5, 6],
+  brown:   [7, 9, 7, 9, 7, 9, 9, 7,10, 8, 9],
+  blonde:  [6, 8, 6, 8, 6, 8, 8, 6, 9,10, 8],
+  orange:  [8, 7, 9, 7, 9, 7, 9, 9, 7, 9, 7],
+  green:   [8, 6, 8, 6, 8, 6, 8, 6, 8, 5, 6],
+  pink:    [7, 9, 7, 9, 7, 9, 7, 9, 8,10,10],
+  silver:  [5, 7, 5, 7, 4, 6, 3, 5, 2, 3, 1],
+  grey:    [8, 6, 8, 6, 8, 6, 8, 8, 7, 9, 7],
+  blue:    [6, 8, 2, 3, 1, 3, 1, 3, 1, 3, 1],
+  teal:    [6, 4, 4, 1, 3, 1, 3, 1, 2, 4, 1],
+  gold:    [7, 5, 6, 2, 3, 1, 3, 1, 3, 1, 3],
+};
+
+// Topic distribution by era (percentages)
+const TOPIC_ERAS = ['2015–18\nFounding', '2019–21\nCrisis I', '2022–23\nUpheaval', '2024–25\nConflict Era'];
+const TOPICS = {
+  'Politics/Government': { color: '#a060f0', data: [30, 26, 24, 20] },
+  'War/Conflict':        { color: '#f05060', data: [10, 12, 28, 40] },
+  'Philosophy/Religion': { color: '#f0c060', data: [16, 14, 10,  5] },
+  'AI/Technology':       { color: '#4ec9b0', data: [10, 10, 16, 18] },
+  'Emigration':          { color: '#d060a0', data: [12, 12, 12,  8] },
+  'Finance':             { color: '#60d060', data: [ 6, 10,  4,  5] },
+  'Sports/Entertainment':{ color: '#c09060', data: [ 8, 10,  3,  2] },
+  'Social/Daily Life':   { color: '#60a0f0', data: [ 8,  6,  3,  2] },
+};
+
+// Interest radar: [Tech/AI, Politics, Sports, Philosophy, Social/Humor, Finance]
+const RADAR_PEOPLE = [
+  { name: 'Mr. White',  color: '#4ec9b0', early: [7,5,4,6,5,7], late: [10,7,4,6,7,7] },
+  { name: 'Mr. Orange', color: '#f0c060', early: [4,6,4,5,8,6], late: [5,8,3,5,8,6] },
+  { name: 'Mr. Blonde', color: '#f05060', early: [5,6,8,7,9,4], late: [6,9,7,4,8,3] },
+  { name: 'Mr. Blue',   color: '#60a0f0', early: [8,6,2,8,8,4], late: [9,6,2,8,5,5] },
+  { name: 'Mr. Brown',  color: '#a060f0', early: [4,8,4,5,7,6], late: [5,10,4,5,7,5] },
+  { name: 'Mr. Pink',   color: '#f07030', early: [6,6,6,2,6,3], late: [7,9,5,2,6,4] },
+  { name: 'Mr. Green',  color: '#60d060', early: [6,6,4,4,6,9], late: [7,9,3,4,5,9] },
+  { name: 'Mr. Grey',   color: '#c0b060', early: [4,8,3,5,5,5], late: [4,9,2,5,5,4] },
+];
+
+// Personality archetypes (founding 8 only)
+// Dims: Analytical, Provocateur, Humor, Political, Emotional, Technical
+const ARCHETYPES = [
+  { name: 'Mr. White',  color: '#4ec9b0', data: [9,3,7,6,5,8] },
+  { name: 'Mr. Orange', color: '#f0c060', data: [5,6,8,7,6,8] },
+  { name: 'Mr. Blonde', color: '#f05060', data: [3,9,8,8,9,5] },
+  { name: 'Mr. Blue',   color: '#60a0f0', data: [8,8,6,9,4,9] },
+  { name: 'Mr. Brown',  color: '#a060f0', data: [6,5,7,8,4,8] },
+  { name: 'Mr. Pink',   color: '#f07030', data: [4,6,4,10,5,6] },
+  { name: 'Mr. Green',  color: '#60d060', data: [8,4,7,6,7,9] },
+  { name: 'Mr. Grey',   color: '#c0b060', data: [6,5,4,8,3,7] },
+];
+
+// Key group events for timeline annotations
+const EVENTS = [
+  { year: 0,  label: 'Founded',    color: '#666688' },
+  { year: 4,  label: 'Elections/\nEmigration debates', color: '#8888aa' },
+  { year: 5,  label: 'COVID',      color: '#f0c060' },
+  { year: 8,  label: 'Crisis',     color: '#f05060' },
+  { year: 9,  label: 'Escalation', color: '#f08060' },
+];
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+
+const CHART_DEFAULTS = {
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: '#1a1a28',
+      borderColor: '#2a2a3a',
+      borderWidth: 1,
+      titleColor: '#aaa',
+      bodyColor: '#888',
+      padding: 10,
+    }
+  },
+  scales: {
+    x: {
+      grid: { color: '#1a1a26', drawBorder: false },
+      ticks: { color: '#555', font: { size: 11 } },
+    },
+    y: {
+      grid: { color: '#1a1a26', drawBorder: false },
+      ticks: { color: '#555', font: { size: 11 } },
+    }
+  }
+};
+
+function setChartDefaults() {
+  Chart.defaults.color = '#666';
+  Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif";
+}
+
+function makeEventAnnotationPlugin(events) {
+  return {
+    id: 'eventLines',
+    afterDraw(chart) {
+      const ctx = chart.ctx;
+      const xAxis = chart.scales.x;
+      const yAxis = chart.scales.y;
+      if (!xAxis || !yAxis) return;
+
+      events.forEach(ev => {
+        const xPx = xAxis.getPixelForValue(ev.year);
+        ctx.save();
+        ctx.strokeStyle = ev.color + '50';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 4]);
+
+        ctx.beginPath();
+        ctx.moveTo(xPx, yAxis.top);
+        ctx.lineTo(xPx, yAxis.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Label above chart
+        ctx.fillStyle = ev.color + 'cc';
+        ctx.font = '10px system-ui';
+        ctx.textAlign = 'center';
+        const lines = ev.label.split('\n');
+        lines.forEach((line, i) => {
+          ctx.fillText(line, xPx, yAxis.top - 18 + i * 13);
+        });
+        ctx.restore();
+      });
+    }
+  };
+}
+
+function makeLegend(containerId, keys, data, chart) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  keys.forEach((key, i) => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+
+    const dot = document.createElement('div');
+    dot.className = 'legend-dot';
+    dot.style.background = data[key].color || PEOPLE[key]?.color || '#888';
+
+    const label = document.createElement('span');
+    label.textContent = PEOPLE[key]?.name || key;
+
+    item.appendChild(dot);
+    item.appendChild(label);
+    item.addEventListener('click', () => {
+      const meta = chart.getDatasetMeta(i);
+      meta.hidden = !meta.hidden;
+      chart.update();
+      item.style.opacity = meta.hidden ? '0.35' : '1';
+    });
+    container.appendChild(item);
+  });
+}
+
+// ─────────────────────────────────────────────
+// CHART 1 — Activity Over Time
+// ─────────────────────────────────────────────
+
+setChartDefaults();
+
+(function buildActivityChart() {
+  const keys = Object.keys(ACTIVITY);
+  const datasets = keys.map(k => ({
+    label: PEOPLE[k]?.name || k,
+    data: ACTIVITY[k],
+    borderColor: PEOPLE[k]?.color || '#888',
+    backgroundColor: (PEOPLE[k]?.color || '#888') + '18',
+    borderWidth: 2,
+    pointRadius: 3,
+    pointHoverRadius: 5,
+    tension: 0.35,
+    fill: false,
+  }));
+
+  const plugin = makeEventAnnotationPlugin(EVENTS);
+
+  const chart = new Chart(document.getElementById('activityChart'), {
+    type: 'line',
+    plugins: [plugin],
+    data: { labels: YEARS, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { top: 40 } },
+      plugins: {
+        ...CHART_DEFAULTS.plugins,
+        tooltip: {
+          ...CHART_DEFAULTS.plugins.tooltip,
+          callbacks: {
+            title: (items) => `${items[0].dataset.label} — ${items[0].label}`,
+            label: (item) => ` Activity: ${item.raw}/10`,
+          }
+        }
+      },
+      scales: {
+        x: { ...CHART_DEFAULTS.scales.x },
+        y: {
+          ...CHART_DEFAULTS.scales.y,
+          min: 0, max: 10,
+          title: { display: true, text: 'Activity (1–10)', color: '#444', font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  makeLegend('activityLegend', keys, PEOPLE, chart);
+})();
+
+// ─────────────────────────────────────────────
+// CHART 2 — Political Compass
+// ─────────────────────────────────────────────
+
+(function buildPoliticalChart() {
+  const earlyDataset = {
+    label: 'Position ~2015–18',
+    data: POLITICAL.map(p => ({ x: p.early.x, y: p.early.y })),
+    backgroundColor: POLITICAL.map(p => p.color + '30'),
+    borderColor: POLITICAL.map(p => p.color + '80'),
+    borderWidth: 2,
+    pointRadius: 8,
+    pointStyle: 'circle',
+    pointBorderWidth: 2,
+  };
+
+  const lateDataset = {
+    label: 'Position ~2023–25',
+    data: POLITICAL.map(p => ({ x: p.late.x, y: p.late.y })),
+    backgroundColor: POLITICAL.map(p => p.color + 'cc'),
+    borderColor: POLITICAL.map(p => p.color),
+    borderWidth: 1.5,
+    pointRadius: 9,
+    pointStyle: 'circle',
+  };
+
+  const arrowPlugin = {
+    id: 'compassArrows',
+    afterDraw(chart) {
+      const ctx = chart.ctx;
+      const xAxis = chart.scales.x;
+      const yAxis = chart.scales.y;
+      if (!xAxis || !yAxis) return;
+
+      ctx.save();
+      ctx.strokeStyle = '#1e1e2e';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([]);
+
+      const cx = xAxis.getPixelForValue(0);
+      const cy = yAxis.getPixelForValue(0);
+
+      ctx.beginPath(); ctx.moveTo(cx, yAxis.top); ctx.lineTo(cx, yAxis.bottom); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(xAxis.left, cy); ctx.lineTo(xAxis.right, cy); ctx.stroke();
+
+      const labelStyle = (text, px, py, alpha) => {
+        ctx.fillStyle = `rgba(100,100,120,${alpha})`;
+        ctx.font = '10px system-ui';
+        ctx.textAlign = 'center';
+        ctx.fillText(text, px, py);
+      };
+      labelStyle('← Economic Left',  xAxis.left + 60,  cy - 8, 0.5);
+      labelStyle('Economic Right →', xAxis.right - 65, cy - 8, 0.5);
+
+      ctx.save();
+      ctx.translate(xAxis.left + 12, (cy + yAxis.top) / 2);
+      ctx.rotate(-Math.PI/2);
+      labelStyle('← Social Liberal', 0, 0, 0.5);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(xAxis.left + 12, (cy + yAxis.bottom) / 2);
+      ctx.rotate(-Math.PI/2);
+      labelStyle('Conservative →', 0, 0, 0.5);
+      ctx.restore();
+
+      POLITICAL.forEach(person => {
+        const x1 = xAxis.getPixelForValue(person.early.x);
+        const y1 = yAxis.getPixelForValue(person.early.y);
+        const x2 = xAxis.getPixelForValue(person.late.x);
+        const y2 = yAxis.getPixelForValue(person.late.y);
+
+        const dx = x2 - x1, dy = y2 - y1;
+        const len = Math.sqrt(dx*dx + dy*dy);
+        if (len < 8) return;
+
+        const angle = Math.atan2(dy, dx);
+        const headLen = 9;
+
+        ctx.save();
+        ctx.strokeStyle = person.color + '90';
+        ctx.fillStyle = person.color + 'cc';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5, 3]);
+
+        const stopX = x2 - (headLen + 9) * Math.cos(angle);
+        const stopY = y2 - (headLen + 9) * Math.sin(angle);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(stopX, stopY);
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(x2 - 9*Math.cos(angle), y2 - 9*Math.sin(angle));
+        ctx.lineTo(x2 - 9*Math.cos(angle) - headLen*Math.cos(angle - 0.4), y2 - 9*Math.sin(angle) - headLen*Math.sin(angle - 0.4));
+        ctx.lineTo(x2 - 9*Math.cos(angle) - headLen*Math.cos(angle + 0.4), y2 - 9*Math.sin(angle) - headLen*Math.sin(angle + 0.4));
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      POLITICAL.forEach(person => {
+        const x2 = xAxis.getPixelForValue(person.late.x);
+        const y2 = yAxis.getPixelForValue(person.late.y);
+
+        ctx.save();
+        ctx.fillStyle = person.color;
+        ctx.font = 'bold 11px system-ui';
+        ctx.textAlign = 'center';
+        const lx = x2;
+        const ly = y2 - 14;
+        ctx.fillText(person.name, lx, ly);
+        ctx.restore();
+      });
+    }
+  };
+
+  new Chart(document.getElementById('politicalChart'), {
+    type: 'scatter',
+    plugins: [arrowPlugin],
+    data: { datasets: [earlyDataset, lateDataset] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { left: 20, right: 20, top: 10, bottom: 10 } },
+      plugins: {
+        ...CHART_DEFAULTS.plugins,
+        tooltip: {
+          ...CHART_DEFAULTS.plugins.tooltip,
+          callbacks: {
+            title: (items) => {
+              const idx = items[0].dataIndex;
+              return POLITICAL[idx]?.name || '';
+            },
+            label: (item) => {
+              const era = item.datasetIndex === 0 ? '2015–18' : '2023–25';
+              return ` ${era}: economic ${item.parsed.x > 0 ? '+' : ''}${item.parsed.x}, social ${item.parsed.y > 0 ? '+' : ''}${item.parsed.y}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ...CHART_DEFAULTS.scales.x,
+          min: -5, max: 5,
+          title: { display: true, text: 'Economic: Left ←→ Right', color: '#444', font: { size: 11 } },
+          ticks: { color: '#444', stepSize: 1 }
+        },
+        y: {
+          ...CHART_DEFAULTS.scales.y,
+          min: -5, max: 5,
+          title: { display: true, text: 'Social: Liberal ←→ Conservative', color: '#444', font: { size: 11 } },
+          ticks: { color: '#444', stepSize: 1 }
+        }
+      }
+    }
+  });
+})();
+
+// ─────────────────────────────────────────────
+// CHART 3 — Hometown Attachment
+// ─────────────────────────────────────────────
+
+(function buildAttachmentChart() {
+  const keys = Object.keys(ATTACHMENT);
+
+  const adjustedEvents = [
+    { year: 2,   label: 'Mr. Blue emigrates', color: '#60a0f0' },
+    { year: 2.5, label: 'Mr. Teal emigrates', color: '#60c0c0' },
+    { year: 3,   label: 'Mr. Gold emigrates',  color: '#d060a0' },
+    { year: 8,   label: 'Crisis',              color: '#f05060' },
+  ];
+
+  const datasets = keys.map(k => ({
+    label: PEOPLE[k]?.name || k,
+    data: ATTACHMENT[k],
+    borderColor: PEOPLE[k]?.color || '#888',
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    pointRadius: 3,
+    pointHoverRadius: 5,
+    tension: 0.35,
+  }));
+
+  const annotPlugin = makeEventAnnotationPlugin(
+    adjustedEvents.map(e => ({ ...e, year: e.year }))
+  );
+
+  const chart = new Chart(document.getElementById('attachmentChart'), {
+    type: 'line',
+    plugins: [annotPlugin],
+    data: { labels: YEARS, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { top: 40 } },
+      plugins: {
+        ...CHART_DEFAULTS.plugins,
+        tooltip: {
+          ...CHART_DEFAULTS.plugins.tooltip,
+          callbacks: {
+            title: i => `${i[0].dataset.label} — ${i[0].label}`,
+            label: i => ` Attachment: ${i.raw}/10`,
+          }
+        }
+      },
+      scales: {
+        x: { ...CHART_DEFAULTS.scales.x },
+        y: {
+          ...CHART_DEFAULTS.scales.y,
+          min: 0, max: 10,
+          title: { display: true, text: 'Hometown Attachment (0=abroad,  10=deeply rooted)', color: '#444', font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  makeLegend('attachmentLegend', keys, PEOPLE, chart);
+})();
+
+// ─────────────────────────────────────────────
+// CHART 4 — Topic Evolution (Stacked Bar)
+// ─────────────────────────────────────────────
+
+(function buildTopicChart() {
+  const topicKeys = Object.keys(TOPICS);
+  const datasets = topicKeys.map(name => ({
+    label: name,
+    data: TOPICS[name].data,
+    backgroundColor: TOPICS[name].color + 'cc',
+    borderColor: TOPICS[name].color + '40',
+    borderWidth: 1,
+  }));
+
+  new Chart(document.getElementById('topicChart'), {
+    type: 'bar',
+    data: {
+      labels: TOPIC_ERAS,
+      datasets,
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'right',
+          labels: {
+            color: '#666',
+            font: { size: 11 },
+            boxWidth: 12,
+            padding: 10,
+          }
+        },
+        tooltip: {
+          ...CHART_DEFAULTS.plugins.tooltip,
+          callbacks: {
+            label: i => ` ${i.dataset.label}: ~${i.raw}%`,
+          }
+        }
+      },
+      scales: {
+        x: {
+          ...CHART_DEFAULTS.scales.x,
+          stacked: true,
+        },
+        y: {
+          ...CHART_DEFAULTS.scales.y,
+          stacked: true,
+          max: 100,
+          title: { display: true, text: '% of discussions (estimated)', color: '#444', font: { size: 11 } },
+          ticks: { color: '#444', callback: v => v + '%' }
+        }
+      }
+    }
+  });
+})();
+
+// ─────────────────────────────────────────────
+// CHART 5 — Interest Radar (tabbed)
+// ─────────────────────────────────────────────
+
+const RADAR_LABELS = ['Tech / AI', 'Politics', 'Sports', 'Philosophy', 'Social / Humor', 'Finance'];
+
+(function buildRadarChart() {
+  const tabBar = document.getElementById('radarTabs');
+  let currentPerson = 0;
+  let radarChart = null;
+
+  RADAR_PEOPLE.forEach((person, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (i === 0 ? ' active' : '');
+    btn.style.borderColor = i === 0 ? person.color + '80' : '#222';
+    btn.textContent = person.name;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#radarTabs .tab').forEach((b, j) => {
+        b.classList.toggle('active', j === i);
+        b.style.borderColor = j === i ? RADAR_PEOPLE[j].color + '80' : '#222';
+      });
+      currentPerson = i;
+      updateRadar(i);
+    });
+    tabBar.appendChild(btn);
+  });
+
+  function buildData(idx) {
+    const p = RADAR_PEOPLE[idx];
+    return {
+      labels: RADAR_LABELS,
+      datasets: [
+        {
+          label: '2015–18',
+          data: p.early,
+          borderColor: p.color + '50',
+          backgroundColor: p.color + '15',
+          borderWidth: 1.5,
+          pointRadius: 3,
+          pointBackgroundColor: p.color + '50',
+        },
+        {
+          label: '2023–25',
+          data: p.late,
+          borderColor: p.color,
+          backgroundColor: p.color + '25',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: p.color,
+        }
+      ]
+    };
+  }
+
+  const RADAR_OPTIONS = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: { color: '#666', font: { size: 11 }, boxWidth: 12 }
+      },
+      tooltip: { ...CHART_DEFAULTS.plugins.tooltip }
+    },
+    scales: {
+      r: {
+        min: 0, max: 10,
+        grid: { color: '#1e1e2e' },
+        angleLines: { color: '#1e1e2e' },
+        pointLabels: { color: '#555', font: { size: 11 } },
+        ticks: { color: '#333', backdropColor: 'transparent', stepSize: 2 }
+      }
+    }
+  };
+
+  function updateRadar(idx) {
+    if (radarChart) {
+      radarChart.data = buildData(idx);
+      radarChart.options.plugins.title = {
+        display: true,
+        text: RADAR_PEOPLE[idx].name,
+        color: RADAR_PEOPLE[idx].color,
+        font: { size: 14, weight: '400' }
+      };
+      radarChart.update();
+    }
+  }
+
+  radarChart = new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: buildData(0),
+    options: {
+      ...RADAR_OPTIONS,
+      plugins: {
+        ...RADAR_OPTIONS.plugins,
+        title: {
+          display: true,
+          text: RADAR_PEOPLE[0].name,
+          color: RADAR_PEOPLE[0].color,
+          font: { size: 14, weight: '400' }
+        }
+      }
+    }
+  });
+})();
+
+// ─────────────────────────────────────────────
+// CHART 6 — Personality Archetype Grid
+// ─────────────────────────────────────────────
+
+(function buildArchetypeGrid() {
+  const grid = document.getElementById('archetypeGrid');
+  const dims = ['Analytical', 'Provocateur', 'Humor', 'Political', 'Emotional', 'Technical'];
+
+  ARCHETYPES.forEach(person => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'chart-box';
+    wrapper.style.padding = '16px';
+
+    const label = document.createElement('div');
+    label.style.cssText = `text-align:center; font-size:0.82rem; color:${person.color}; margin-bottom:8px; font-weight:500;`;
+    label.textContent = person.name;
+
+    const canvasWrap = document.createElement('div');
+    canvasWrap.style.cssText = 'position:relative; height:200px; width:100%;';
+    const canvas = document.createElement('canvas');
+
+    canvasWrap.appendChild(canvas);
+    wrapper.appendChild(label);
+    wrapper.appendChild(canvasWrap);
+    grid.appendChild(wrapper);
+
+    new Chart(canvas, {
+      type: 'radar',
+      data: {
+        labels: dims,
+        datasets: [{
+          data: person.data,
+          borderColor: person.color,
+          backgroundColor: person.color + '28',
+          borderWidth: 2,
+          pointRadius: 2,
+          pointBackgroundColor: person.color,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { ...CHART_DEFAULTS.plugins.tooltip }
+        },
+        scales: {
+          r: {
+            min: 0, max: 10,
+            grid: { color: '#1e1e2e' },
+            angleLines: { color: '#1e1e2e' },
+            pointLabels: { color: '#444', font: { size: 9 } },
+            ticks: { display: false }
+          }
+        }
+      }
+    });
+  });
+})();
+
+</script>
+</body>
+</html>
