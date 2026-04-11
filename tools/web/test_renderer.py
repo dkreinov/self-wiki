@@ -58,10 +58,10 @@ def test_build_title_map(wiki_root):
     from tools.web.renderer import build_title_map
 
     title_map = build_title_map(wiki_root)
-    assert "Alex Mercer" in title_map
-    assert title_map["Alex Mercer"] == "people/alex-mercer"
-    assert "Yael Cohen" in title_map
-    assert "The Thursday Circle — Historical Doubles" in title_map
+    assert "Mr. White" in title_map
+    assert title_map["Mr. White"] == "people/mr-white"
+    assert "Mr. Silver" in title_map
+    assert "The Reservoir — Historical Doubles" in title_map
 
 
 def test_wikilink_resolved(wiki_root):
@@ -72,11 +72,11 @@ def test_wikilink_resolved(wiki_root):
 title: "Test"
 ---
 
-See [[Alex Mercer]] for more.
+See [[Mr. White]] for more.
 """
     meta, html = parse_article(md, title_map=title_map)
-    assert 'href="/wiki/people/alex-mercer"' in html
-    assert ">Alex Mercer</a>" in html
+    assert 'href="/wiki/people/mr-white"' in html
+    assert ">Mr. White</a>" in html
 
 
 def test_wikilink_broken():
@@ -101,10 +101,10 @@ def test_wikilink_bold_mode(wiki_root):
 title: "Test"
 ---
 
-See [[Alex Mercer]] for more.
+See [[Mr. White]] for more.
 """
     meta, html = parse_article(md, title_map=title_map, wikilinks_as_bold=True)
-    assert "<strong>Alex Mercer</strong>" in html
+    assert "<strong>Mr. White</strong>" in html
     assert "href" not in html
 
 
@@ -142,8 +142,8 @@ def test_mixed_hebrew_english():
 title: "Test"
 ---
 
-Alex said שלום to everyone.
+Mr. White said שלום to everyone.
 """
     meta, html = parse_article(md, title_map={})
     assert '<bdi dir="rtl">' in html
-    assert "Alex" in html
+    assert "Mr. White" in html

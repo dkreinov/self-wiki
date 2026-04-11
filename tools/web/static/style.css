@@ -47,6 +47,14 @@ body {
 
 .nav-type { color: var(--text-muted); }
 
+.nav-graphs {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.nav-graphs:hover { color: var(--accent); text-decoration: underline; }
+
 /* Layout */
 main {
     max-width: calc(var(--max-width) + var(--sidebar-width) + 3rem);

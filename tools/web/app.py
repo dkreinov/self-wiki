@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 
-from flask import Flask, abort, render_template
+from flask import Flask, abort, render_template, Response
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -37,6 +37,9 @@ def create_app(wiki_root: Path | None = None) -> Flask:
     if wiki_root is None:
         wiki_root = _find_wiki_root()
 
+    # Look for evolution-graphs demo relative to wiki root
+    graphs_file = wiki_root.parent / "evolution-graphs.html"
+
     app = Flask(
         __name__,
         template_folder=str(Path(__file__).parent / "templates"),
@@ -58,7 +61,10 @@ def create_app(wiki_root: Path | None = None) -> Flask:
             meta, html = parse_article(source, title_map=title_map)
         else:
             meta, html = {}, "<p>No index file found.</p>"
-        return render_template("index.html", content=html, meta=meta, title="Wiki")
+        return render_template(
+            "index.html", content=html, meta=meta, title="Wiki",
+            graphs_available=graphs_file.exists(),
+        )
 
     @app.route("/wiki/<path:article_path>")
     def article(article_path: str):
@@ -87,6 +93,16 @@ def create_app(wiki_root: Path | None = None) -> Flask:
             article_path=article_path,
             backlinks=article_backlinks,
             pdf_available=PDF_AVAILABLE,
+            graphs_available=graphs_file.exists(),
+        )
+
+    @app.route("/demo/graphs")
+    def demo_graphs():
+        if not graphs_file.exists():
+            abort(404)
+        return Response(
+            graphs_file.read_text(encoding="utf-8"),
+            content_type="text/html; charset=utf-8",
         )
 
     if PDF_AVAILABLE:

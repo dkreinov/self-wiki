@@ -9,6 +9,10 @@
 <body>
     <nav class="top-nav">
         <a href="/" class="nav-home">Wiki</a>
+        {% if graphs_available %}
+        <span class="nav-sep">/</span>
+        <a href="/demo/graphs" class="nav-graphs">Graphs →</a>
+        {% endif %}
         {% block nav_extra %}{% endblock %}
     </nav>
     <main>

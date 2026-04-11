@@ -1,26 +1,26 @@
 {
-  "Alex Mercer": {
-    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Priya Sharma", "Yael Cohen"],
+  "Mr. White": {
+    "referenced_by": ["The Reservoir — Historical Doubles", "Book Recommendations for The Reservoir", "Mr. Pink", "Mr. Silver"],
     "count": 4
   },
-  "Priya Sharma": {
-    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Alex Mercer", "Dan Kowalski"],
+  "Mr. Pink": {
+    "referenced_by": ["The Reservoir — Historical Doubles", "Book Recommendations for The Reservoir", "Mr. White", "Mr. Blonde"],
     "count": 4
   },
-  "Dan Kowalski": {
-    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Priya Sharma", "Yael Cohen"],
+  "Mr. Blonde": {
+    "referenced_by": ["The Reservoir — Historical Doubles", "Book Recommendations for The Reservoir", "Mr. Pink", "Mr. Silver"],
     "count": 4
   },
-  "Yael Cohen": {
-    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Alex Mercer", "Dan Kowalski"],
+  "Mr. Silver": {
+    "referenced_by": ["The Reservoir — Historical Doubles", "Book Recommendations for The Reservoir", "Mr. White", "Mr. Blonde"],
     "count": 4
   },
-  "The Thursday Circle — Historical Doubles": {
-    "referenced_by": ["Alex Mercer", "Priya Sharma", "Dan Kowalski", "Yael Cohen"],
+  "The Reservoir — Historical Doubles": {
+    "referenced_by": ["Mr. White", "Mr. Pink", "Mr. Blonde", "Mr. Silver"],
     "count": 4
   },
-  "Book Recommendations for the Thursday Circle": {
-    "referenced_by": ["Alex Mercer", "Priya Sharma", "Dan Kowalski", "Yael Cohen"],
+  "Book Recommendations for The Reservoir": {
+    "referenced_by": ["Mr. White", "Mr. Pink", "Mr. Blonde", "Mr. Silver"],
     "count": 4
   }
 }
