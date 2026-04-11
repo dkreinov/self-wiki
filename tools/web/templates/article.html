@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block nav_extra %}
+    <span class="nav-sep">/</span>
+    <span class="nav-type">{{ meta.get('type', '') }}</span>
+{% endblock %}
+
+{% block content %}
+<div class="article-layout">
+    <article class="wiki-article">
+        <header class="article-header">
+            <h1>{{ title }}</h1>
+            {% if meta.get('type') %}
+            <div class="article-meta">
+                <span class="meta-type">{{ meta.get('type') }}</span>
+                {% if meta.get('created') %}
+                <span class="meta-date">{{ meta.get('created') }}</span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </header>
+        <div class="article-body">
+            {{ content | safe }}
+        </div>
+        {% if pdf_available %}
+        <footer class="article-footer">
+            <a href="/wiki/{{ article_path }}/pdf" class="pdf-button">Export to PDF</a>
+        </footer>
+        {% endif %}
+    </article>
+
+    {% if backlinks %}
+    <aside class="backlinks-sidebar">
+        <h3>Referenced by</h3>
+        <ul>
+            {% for bl in backlinks %}
+            <li>
+                {% if bl.path %}
+                <a href="{{ bl.path }}">{{ bl.title }}</a>
+                {% else %}
+                <span class="broken-link">{{ bl.title }}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </aside>
+    {% endif %}
+</div>
+{% endblock %}

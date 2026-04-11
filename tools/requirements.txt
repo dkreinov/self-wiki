@@ -1,0 +1,4 @@
+flask>=3.0
+python-frontmatter>=1.1
+markdown>=3.6
+pytest>=9.0

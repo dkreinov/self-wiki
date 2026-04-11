@@ -1,0 +1,26 @@
+{
+  "Alex Mercer": {
+    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Priya Sharma", "Yael Cohen"],
+    "count": 4
+  },
+  "Priya Sharma": {
+    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Alex Mercer", "Dan Kowalski"],
+    "count": 4
+  },
+  "Dan Kowalski": {
+    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Priya Sharma", "Yael Cohen"],
+    "count": 4
+  },
+  "Yael Cohen": {
+    "referenced_by": ["The Thursday Circle — Historical Doubles", "Book Recommendations for the Thursday Circle", "Alex Mercer", "Dan Kowalski"],
+    "count": 4
+  },
+  "The Thursday Circle — Historical Doubles": {
+    "referenced_by": ["Alex Mercer", "Priya Sharma", "Dan Kowalski", "Yael Cohen"],
+    "count": 4
+  },
+  "Book Recommendations for the Thursday Circle": {
+    "referenced_by": ["Alex Mercer", "Priya Sharma", "Dan Kowalski", "Yael Cohen"],
+    "count": 4
+  }
+}

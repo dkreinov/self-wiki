@@ -1,0 +1,3 @@
+# Optional: enables PDF export via the /pdf route on each article page.
+# Requires system libraries on some platforms — see https://xhtml2pdf.readthedocs.io
+xhtml2pdf>=0.2.16
