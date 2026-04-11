@@ -43,14 +43,22 @@ git clone https://github.com/dkreinov/self-wiki.git my-wiki
 cd my-wiki
 ```
 
-2. Drop your raw data into `raw/`:
+2. Drop your raw data into `raw/`. Use whichever sources you have:
 
 ```
 raw/
 ├── whatsapp/      # WhatsApp .txt chat exports
-├── imdb/          # IMDB ratings CSV (from imdb.com/list/ratings → Export)
-├── goodreads/     # Goodreads library CSV export
+├── telegram/      # Telegram JSON exports (Settings → Export Chat History)
+├── facebook/      # Facebook Messenger JSON (Facebook data download)
+├── instagram/     # Instagram DMs and posts JSON (Instagram data download)
+├── twitter/       # Twitter/X archive (data download → tweets.js)
+├── reddit/        # Reddit GDPR export
 ├── spotify/       # Extended streaming history JSON
+├── youtube/       # YouTube watch history JSON (Google Takeout)
+├── imdb/          # IMDB ratings CSV (imdb.com/list/ratings → Export)
+├── letterboxd/    # Letterboxd diary CSV (Settings → Export)
+├── goodreads/     # Goodreads library CSV export
+├── kindle/        # Kindle highlights (My Clippings.txt)
 ├── diary/         # Journal entries (any format)
 └── thoughts/      # Brain dumps, notes
 ```
@@ -96,7 +104,52 @@ The `/wiki` skill gives you these commands:
 
 ### The Demo (`demo/`)
 
-The `demo/evolution-graphs.html` shows what's possible: a 6-chart interactive dashboard visualizing 10 years of group dynamics from ~500K messages. Open it in a browser to see activity timelines, political compass drift, personality archetypes, and more.
+Two demo artifacts ship with the starter kit:
+
+**`demo/evolution-graphs.html`** — A 6-chart interactive dashboard visualizing 10 years of group dynamics from ~500K messages. Open it in a browser to see activity timelines, political compass drift, personality archetypes, and more.
+
+**`demo/wiki/`** — A fully functional sample wiki featuring a fictional friend group called the Thursday Circle: four people profiles, a Historical Doubles pattern article matching each member to a historical thinker, and a personalized book recommendations article. Browse it with the web browser below.
+
+## Web Browser (Optional)
+
+Browse your wiki as a local website with rendered articles, clickable wikilinks, and a backlinks sidebar.
+
+### Install
+
+```bash
+pip install -r tools/requirements.txt
+```
+
+### Run
+
+```bash
+# Browse your own wiki (auto-detects wiki/ in the project root)
+python tools/web/app.py
+
+# Browse the demo wiki
+python tools/web/app.py --wiki demo/wiki
+
+# Custom path or port
+python tools/web/app.py --wiki /path/to/wiki --port 8080
+```
+
+Then open http://localhost:5000.
+
+### PDF Export (Optional)
+
+Install the extra dependency to add an "Export to PDF" button on every article:
+
+```bash
+pip install -r tools/requirements-pdf.txt
+```
+
+> On some platforms xhtml2pdf requires system libraries. See the [xhtml2pdf docs](https://xhtml2pdf.readthedocs.io) if installation fails.
+
+### Tests
+
+```bash
+pytest tools/web/
+```
 
 ## Use Cases
 
