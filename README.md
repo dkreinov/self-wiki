@@ -25,8 +25,9 @@ The wiki artifacts — markdown files, indices, backlinks — live on your local
 What this means in practice:
 - **Local artifacts**: The wiki itself is local markdown. No database, no cloud sync, no account.
 - **Provider access**: During processing, file contents are sent to the model provider's API. If privacy matters, choose a provider whose data policy you trust.
-- **Anthropic / Claude**: Anthropic does not use your inputs or outputs from the API or Claude Code to train models. See their [usage policy](https://www.anthropic.com/policies).
-- **Other people's data**: Chat exports contain other people's messages. That is shared data, not just yours. Ask permission before ingesting group conversations or DMs. Anonymize where appropriate.
+- **Training opt-out is not automatic**: Most providers allow you to opt out of having your inputs used for model training, but this is typically a setting you must enable yourself. For example, Anthropic offers an opt-out — check their [usage policy](https://www.anthropic.com/policies) and make sure it is turned on before sending personal data. Do not assume any provider excludes your data by default.
+
+> **Other people's data** — this is the most important privacy concern. Chat exports, group conversations, and DMs contain other people's messages. That is their data, not just yours. You must ask their permission before ingesting shared conversations. Anonymize names and identifying details where appropriate. If someone asks you to remove their data, do it. Being thoughtful about this is not optional.
 
 For additional security:
 - Enable **BitLocker** (Windows), **FileVault** (Mac), or **LUKS** (Linux) to encrypt your drive
