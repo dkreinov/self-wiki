@@ -18,15 +18,19 @@ You drop in raw data exports (WhatsApp chats, IMDB ratings, Goodreads library, S
 
 The result: an interconnected personal encyclopedia that compounds over time.
 
-## Privacy First
+## Privacy
 
-**All data stays on your machine.** The LLM reads local files and writes local markdown. Nothing is uploaded, stored, or shared with any service.
+The wiki artifacts — markdown files, indices, backlinks — live on your local disk. But the LLM coding tool you use (Claude Code, Cursor, Codex, etc.) sends file contents to the model provider during processing. That is how it works: the model reads your files in order to write articles.
+
+What this means in practice:
+- **Local artifacts**: The wiki itself is local markdown. No database, no cloud sync, no account.
+- **Provider access**: During processing, file contents are sent to the model provider's API. If privacy matters, choose a provider whose data policy you trust.
+- **Anthropic / Claude**: Anthropic does not use your inputs or outputs from the API or Claude Code to train models. See their [usage policy](https://www.anthropic.com/policies).
+- **Other people's data**: Chat exports contain other people's messages. That is shared data, not just yours. Ask permission before ingesting group conversations or DMs. Anonymize where appropriate.
 
 For additional security:
 - Enable **BitLocker** (Windows), **FileVault** (Mac), or **LUKS** (Linux) to encrypt your drive
-- Use any full-disk encryption tool you trust
 - Keep the `raw/` directory in a separate encrypted volume if you prefer
-- **Important:** If your wiki includes data about other people (chat exports, group conversations), ask their permission first. This is their data too.
 
 ## Quick Start
 
