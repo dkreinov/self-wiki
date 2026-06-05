@@ -23,16 +23,65 @@ Convert raw source files into normalized markdown entries in `raw/entries/`.
 - Run person identity resolution against `people_aliases.yaml`
 - Output: one `.md` entry file per conversation per date chunk
 
+**telegram** — Parse Telegram JSON exports from `raw/telegram/`.
+- Export via Telegram Desktop → Settings → Export Chat History → JSON
+- Auto-detect group vs. 1-on-1 conversations
+- Handle forwarded messages, replies, stickers, polls
+- Run person identity resolution against `people_aliases.yaml`
+- Output: one `.md` entry file per conversation per date chunk
+
+**facebook** — Parse Facebook Messenger JSON from `raw/facebook/`.
+- Export via Facebook Settings → Your Facebook Information → Download Your Information → Messages
+- Extract participants, message text, timestamps, reactions
+- Skip automated system messages
+- Output: one `.md` entry file per conversation per date chunk
+
+**instagram** — Parse Instagram data from `raw/instagram/`.
+- Export via Instagram Settings → Account → Download Data
+- Parse DMs (`messages/inbox/`) and optionally post captions (`content/posts_1.json`)
+- Extract participants, message text, timestamps, reactions
+- Output: one `.md` entry file per conversation per date chunk
+
+**twitter** — Parse Twitter/X archive from `raw/twitter/`.
+- Export via X Settings → Your Account → Download an archive of your data
+- Parse `data/tweets.js` for tweet content, dates, likes, retweets
+- Identify recurring themes, topics, and tone shifts over time
+- Output: one `.md` entry per meaningful period (month or quarter)
+
+**reddit** — Parse Reddit export from `raw/reddit/`.
+- Request via Reddit Settings → Data Request (GDPR)
+- Parse saved posts, comments, and upvoted content
+- Group by subreddit and topic cluster
+- Output: one `.md` entry per meaningful period or community
+
 **spotify** — Parse Spotify data from `raw/spotify/`.
 - Extended streaming history JSON or playlist exports
 - Extract: track, artist, album, play duration, timestamp
 - Group by meaningful periods (not individual plays)
 
+**youtube** — Parse YouTube watch history from `raw/youtube/`.
+- Export via Google Takeout → YouTube and YouTube Music → watch-history.json
+- Extract: title, channel, timestamp
+- Identify viewing patterns, recurring channels, topic clusters
+- Output: one `.md` entry per meaningful period
+
 **imdb** — Parse IMDB ratings CSV from `raw/imdb/`.
 - Extract: title, year, rating, date rated, genres, directors
 
+**letterboxd** — Parse Letterboxd diary CSV from `raw/letterboxd/`.
+- Export via Letterboxd Settings → Import & Export → Export Your Data
+- Parse `diary.csv` and `ratings.csv`
+- Extract: title, year, rating, date watched, review, tags
+- Compatible with IMDB ingestor output format
+
 **goodreads** — Parse Goodreads CSV from `raw/goodreads/`.
 - Extract: title, author, rating, date read, shelves, review
+
+**kindle** — Parse Kindle highlights from `raw/kindle/`.
+- Source: `My Clippings.txt` from Kindle device, or JSON from Readwise/Kindle export
+- Extract: book title, author, highlight text, location, date
+- Group highlights by book
+- Output: one `.md` entry per book with all highlights
 
 **designs** — Process design files from `raw/designs/`.
 - Read images (screenshots, mood boards)

@@ -19,9 +19,17 @@ Immutable source documents. The LLM reads from these but NEVER modifies them. Th
 ```
 raw/
 ├── whatsapp/      # WhatsApp .txt chat exports
+├── telegram/      # Telegram JSON exports (via Settings → Export Chat History)
+├── facebook/      # Facebook Messenger JSON (via Facebook data download)
+├── instagram/     # Instagram DMs and posts JSON (via Instagram data download)
+├── twitter/       # Twitter/X archive (tweets.js from data download)
+├── reddit/        # Reddit export (via GDPR request)
 ├── spotify/       # Streaming history JSON, playlist exports
+├── youtube/       # YouTube watch history JSON (via Google Takeout)
 ├── imdb/          # Ratings CSV export
-├── goodreads/     # Library CSV export
+├── letterboxd/    # Letterboxd diary CSV export
+├── goodreads/     # Goodreads library CSV export
+├── kindle/        # Kindle highlights (My Clippings.txt or JSON)
 ├── designs/       # Screenshots, mood boards, design references
 ├── diary/         # Journal entries (any format)
 └── thoughts/      # Brain dumps, ideas, notes
